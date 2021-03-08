@@ -3,13 +3,13 @@
 
 # define WIN_TITLE "Flappy Bird"
 
-# define DISPLAY_SCALE	(1)
+# define DISPLAY_SCALE	(3)
 
-# define WIN_WIDTH	(4 * 16 * DISPLAY_SCALE)
-# define WIN_HEIGHT	(4 * 16 * DISPLAY_SCALE)
+# define WIN_WIDTH	(10 * 16 * DISPLAY_SCALE)
+# define WIN_HEIGHT	(10 * 16 * DISPLAY_SCALE)
 
-# define WIN_POS_X	(2200)
-# define WIN_POS_Y	(100)
+# define WIN_POS_X	(0)
+# define WIN_POS_Y	(0)
 
 # define TILE_SIZE	(16)
 

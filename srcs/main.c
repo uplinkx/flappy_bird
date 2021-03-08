@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:28:54 by home             ###   ########.fr       */
+/*   Updated: 2021/03/07 16:37:16 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ int	main(void)
 
 	display = SDLX_GetDisplay();
 	game_context_initialize(&cxt, display);
-	emscripten_set_main_loop_arg(main_loop, (void *)&(cxt), 0, SDL_TRUE);
+	emscripten_set_main_loop_arg(main_loop, (void *)&(cxt), 80, SDL_TRUE);
 	return (0);
 }

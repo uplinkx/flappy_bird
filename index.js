@@ -187,7 +187,7 @@ var Module = typeof Module !== 'undefined' ? Module : {};
     }
   
    }
-   loadPackage({"files": [{"filename": "/resources/flappy_bird.png", "start": 0, "end": 561, "audio": 0}, {"filename": "/resources/pixel_numbers_white.png", "start": 561, "end": 768, "audio": 0}], "remote_package_size": 768, "package_uuid": "3ed9e25d-9cde-455d-bd48-6278efec7d22"});
+   loadPackage({"files": [{"filename": "/resources/flappy_bird.png", "start": 0, "end": 561, "audio": 0}, {"filename": "/resources/pixel_numbers_white.png", "start": 561, "end": 768, "audio": 0}], "remote_package_size": 768, "package_uuid": "03676f96-3287-4c48-b5f8-624f09fabdf4"});
   
   })();
   

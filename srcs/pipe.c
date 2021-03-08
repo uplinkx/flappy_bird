@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 20:09:41 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:17:07 by home             ###   ########.fr       */
+/*   Updated: 2021/03/07 16:38:31 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ void	draw_pipe(t_game_context *game_state, SDLX_Display *display, t_pipe pipe)
 
 	top_dest.x = pipe.loc_x;
 	top_dest.y = 0;
-	top_dest.w = TILE_SIZE;
+	top_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	top_dest.h = pipe.loc_y - (HALF_GAP);
 	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_BODY]), &(top_dest));
 	top_dest.y = top_dest.h;
-	top_dest.h = TILE_SIZE;
+	top_dest.h = TILE_SIZE * DISPLAY_SCALE;
 	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_END]), &(top_dest));
 
 	bottom_dest.x = pipe.loc_x;
 	bottom_dest.y = pipe.loc_y + (HALF_GAP);
-	bottom_dest.w = TILE_SIZE;
+	bottom_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	bottom_dest.h = (WIN_HEIGHT) - bottom_dest.y;
 	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_BODY]), &(bottom_dest));
-	bottom_dest.y -= TILE_SIZE;
-	bottom_dest.h = TILE_SIZE;
+	bottom_dest.y -= TILE_SIZE * DISPLAY_SCALE;
+	bottom_dest.h = TILE_SIZE * DISPLAY_SCALE;
 	SDL_RenderCopyEx(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_END]), &(bottom_dest), 0, NULL, SDL_FLIP_VERTICAL);
 }
 
@@ -103,18 +103,18 @@ bool	collides_with_pipe(t_pipe pipe, t_game_context *game_state)
 
 	top_pipe.x = pipe.loc_x;
 	top_pipe.y = 0;
-	top_pipe.w = TILE_SIZE;
+	top_pipe.w = TILE_SIZE * DISPLAY_SCALE;
 	top_pipe.h = pipe.loc_y - (HALF_GAP);
 
 	bottom_pipe.x = pipe.loc_x;
 	bottom_pipe.y = pipe.loc_y + (HALF_GAP);
-	bottom_pipe.w = TILE_SIZE;
+	bottom_pipe.w = TILE_SIZE * DISPLAY_SCALE;
 	bottom_pipe.h = (WIN_HEIGHT) - bottom_pipe.y;
 
 	player.x = 40;
 	player.y = game_state->player_loc_y;
-	player.w = TILE_SIZE;
-	player.h = TILE_SIZE;
+	player.w = TILE_SIZE * DISPLAY_SCALE;
+	player.h = TILE_SIZE * DISPLAY_SCALE;
 
 	result = false;
 	result |= SDL_HasIntersection(&player, &top_pipe);
