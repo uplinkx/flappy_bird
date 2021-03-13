@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:37:16 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 16:49:26 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	game_context_initialize(t_game_context *game_state, SDLX_Display *display)
 	game_state->src_rect = carve_flappy_bird_texture();
 
 	game_state->ticks = 0;
+	game_state->score = 0;
 	game_state->game_over = false;
 
 	game_state->pipe_capacity = 10;

@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 02:38:19 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:37:07 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 16:49:41 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_score(t_game_context *game_state, SDLX_Display *display)
 	dest.w = 4 * DISPLAY_SCALE;
 	dest.x = 400;
 	dest.y = 48;
-	itow(game_state->ticks, dest, display);
+	itow(game_state->score, dest, display);
 }
 
 void	draw_game_over(t_game_context *game_state, SDLX_Display *display)

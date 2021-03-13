@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 03:05:42 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:26:40 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 16:48:34 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_game_context
 	SDL_Rect	*src_rect;
 
 	int			ticks;
+	int			score;
 
 	bool		game_over;
 

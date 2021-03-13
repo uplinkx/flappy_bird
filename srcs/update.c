@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 20:52:34 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:16:20 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 16:51:10 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void		update_active_pipes(t_game_context *game_state)
 				game_state->pipes[i].active = false;
 				game_state->current_pipe_amount--;
 			}
+			if (game_state->pipes[i].loc_x == 30)
+				game_state->score++;
 		}
 		i++;
 	}
@@ -36,7 +38,7 @@ void		update_active_pipes(t_game_context *game_state)
 
 void		update_game_state(t_game_context *game_state)
 {
-	if (game_state->ticks % 150 == 0)
+	if (game_state->ticks % 175 == 0)
 		spawn_pipe(game_state);
 	update_active_pipes(game_state);
 

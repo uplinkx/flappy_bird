@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 20:55:48 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:35:45 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 16:39:15 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	draw_player(t_game_context *game_state, SDLX_Display *display)
 	dest.w = TILE_SIZE * DISPLAY_SCALE;
 	dest.x = 40;
 	dest.y = game_state->player_loc_y;
+
+	game_state->player_loc_y += WIN_HEIGHT;
+	game_state->player_loc_y %= WIN_HEIGHT;
 
 	angle = (atan(game_state->player_vel_y * -1) * 180) / M_PI;
 	angle *= .7;
