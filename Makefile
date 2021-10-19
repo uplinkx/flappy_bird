@@ -38,10 +38,12 @@ FILE_NAMES =		\
 	carve_texture	\
 	game_input		\
 	itow			\
+	level			\
 	main			\
 	pipe			\
 	player			\
 	render			\
+	scene_util		\
 	update			\
 
 

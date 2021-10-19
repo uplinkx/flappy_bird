@@ -6,13 +6,13 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 02:38:19 by home              #+#    #+#             */
-/*   Updated: 2021/03/12 17:36:18 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 23:10:30 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	draw_score(t_game_context *game_state, SDLX_Display *display)
+void	draw_score(t_scene *game_state, SDLX_Display *display)
 {
 	SDL_Rect	dest;
 
@@ -23,7 +23,7 @@ void	draw_score(t_game_context *game_state, SDLX_Display *display)
 	itow(game_state->score, dest, display);
 }
 
-void	draw_game_over(t_game_context *game_state, SDLX_Display *display)
+void	draw_game_over(t_scene *game_state, SDLX_Display *display)
 {
 	SDL_Rect	dest;
 
@@ -34,11 +34,11 @@ void	draw_game_over(t_game_context *game_state, SDLX_Display *display)
 	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[GAME_OVER]), &dest);
 }
 
-void	draw_background(t_game_context *game_state, SDLX_Display *display)
+void	draw_background(t_scene *game_state, SDLX_Display *display)
 {
 	SDL_Rect dest;
 
-	int x = game_state->ticks;
+	int x = *(game_state->ticks);
 	x %= WIN_WIDTH;
 	x -= WIN_WIDTH;
 	x *= -1;

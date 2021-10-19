@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 20:09:41 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:38:31 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 23:50:21 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #define PIPE_GAP (256)
 #define HALF_GAP (PIPE_GAP / 2)
 
-void	draw_pipe(t_game_context *game_state, SDLX_Display *display, t_pipe pipe)
+void	draw_pipe(t_pipes *pipes, SDLX_Display *display, t_pipe pipe)
 {
 	SDL_Rect	top_dest;
 	SDL_Rect	bottom_dest;
@@ -24,68 +24,66 @@ void	draw_pipe(t_game_context *game_state, SDLX_Display *display, t_pipe pipe)
 	top_dest.y = 0;
 	top_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	top_dest.h = pipe.loc_y - (HALF_GAP);
-	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_BODY]), &(top_dest));
+	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(top_dest));
 	top_dest.y = top_dest.h;
 	top_dest.h = TILE_SIZE * DISPLAY_SCALE;
-	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_END]), &(top_dest));
+	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(top_dest));
 
 	bottom_dest.x = pipe.loc_x;
 	bottom_dest.y = pipe.loc_y + (HALF_GAP);
 	bottom_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	bottom_dest.h = (WIN_HEIGHT) - bottom_dest.y;
-	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_BODY]), &(bottom_dest));
+	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(bottom_dest));
 	bottom_dest.y -= TILE_SIZE * DISPLAY_SCALE;
 	bottom_dest.h = TILE_SIZE * DISPLAY_SCALE;
-	SDL_RenderCopyEx(display->renderer, game_state->texture, &(game_state->src_rect[PIPE_END]), &(bottom_dest), 0, NULL, SDL_FLIP_VERTICAL);
+	SDL_RenderCopyEx(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(bottom_dest), 0, NULL, SDL_FLIP_VERTICAL);
 }
 
-void	draw_pipes(t_game_context *game_state, SDLX_Display *display)
+void	draw_pipes(t_pipes *pipes, SDLX_Display *display)
 {
 	int		i;
-	t_pipe	*pipes;
 
 	i = 0;
-	pipes = game_state->pipes;
-	while (i < game_state->pipe_capacity)
+	while (i < pipes->pipe_capacity)
 	{
-		if (pipes[i].active == true)
-			draw_pipe(game_state, display, pipes[i]);
+		if (pipes->pipes[i].active == true)
+			draw_pipe(pipes, display, pipes->pipes[i]);
 		i++;
 	}
 }
 
-void	double_pipe_space(t_game_context *game_state)
+void	double_pipe_space(t_pipes *pipes)
 {
 	int		capacity;
 	t_pipe	*temp;
 
-	capacity = game_state->pipe_capacity;
+	capacity = pipes->pipe_capacity;
 	temp = malloc(sizeof(*temp) * (capacity * 2));
 	bzero(temp, sizeof(*temp) * (capacity * 2));
-	memcpy(temp, game_state->pipes, sizeof(*temp) * capacity);
-	game_state->pipe_capacity *= 2;
+	memcpy(temp, pipes->pipes, sizeof(*temp) * capacity);
+	pipes->pipe_capacity *= 2;
 
-	free(game_state->pipes);
-	game_state->pipes = temp;
+	free(pipes->pipes);
+	pipes->pipes = temp;
 }
 
-void	spawn_pipe(t_game_context *game_state)
+void	spawn_pipe(t_pipes *pipes)
 {
 	int		i;
 
 	i = 0;
-	while (i < game_state->pipe_capacity &&
-			game_state->pipes[i].active == true)
+	while (i < pipes->pipe_capacity &&
+			pipes->pipes[i].active == true)
 		i++;
 
-	if (i == game_state->pipe_capacity)
-		double_pipe_space(game_state);
+	if (i == pipes->pipe_capacity)
+		double_pipe_space(pipes);
 
-	game_state->pipes[i].active = true;
-	game_state->pipes[i].loc_x = WIN_WIDTH;
-	game_state->pipes[i].loc_y = (rand() % 10 + 5) * 25;
+	pipes->pipes[i].active = true;
+	pipes->pipes[i].loc_x = WIN_WIDTH;
+	pipes->pipes[i].loc_y = (rand() % 10 + 5) * 25;
 
-	game_state->current_pipe_amount++;
+	pipes->current_pipe_amount++;
 }
 
 /*
@@ -93,7 +91,7 @@ void	spawn_pipe(t_game_context *game_state)
 ** and certain attributes are only calculated once.
 */
 
-bool	collides_with_pipe(t_pipe pipe, t_game_context *game_state)
+bool	collides_with_pipe(t_pipe pipe, int	player_loc_y)
 {
 	bool		result;
 	SDL_Rect	top_pipe;
@@ -112,7 +110,7 @@ bool	collides_with_pipe(t_pipe pipe, t_game_context *game_state)
 	bottom_pipe.h = (WIN_HEIGHT) - bottom_pipe.y;
 
 	player.x = 40;
-	player.y = game_state->player_loc_y;
+	player.y = player_loc_y;
 	player.w = TILE_SIZE * DISPLAY_SCALE;
 	player.h = TILE_SIZE * DISPLAY_SCALE;
 
@@ -122,18 +120,19 @@ bool	collides_with_pipe(t_pipe pipe, t_game_context *game_state)
 	return (result);
 }
 
-void	pipe_collisions(t_game_context *game_state)
+SDL_bool	pipe_collisions(t_pipes *pipes, int player_loc_y)
 {
 	int		i;
 
 	i = 0;
-	while (i < game_state->pipe_capacity)
+	while (i < pipes->pipe_capacity)
 	{
-		if (game_state->pipes[i].active == true)
+		if (pipes->pipes[i].active == SDL_TRUE)
 		{
-			if (collides_with_pipe(game_state->pipes[i], game_state) == true)
-				game_state->game_over = true;
+			if (collides_with_pipe(pipes->pipes[i], player_loc_y) == SDL_TRUE)
+				return (SDL_TRUE);
 		}
 		i++;
 	}
+	return (SDL_FALSE);
 }
