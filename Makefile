@@ -32,7 +32,6 @@ SRC_FILES = $(addsuffix .c, $(addprefix srcs/, $(FILE_NAMES)))
 
 $(NAME):
 	emcc $(FLAGS) $(INCLUDES) $(LIBRARIES) $(PRELOAD) $(SRC_FILES) $(SKELE_HTML) -o $(NAME)
-	# open http://localhost:8000/cweb.html
 
 fclean:
 	rm -rf $(NAME)
