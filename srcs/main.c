@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 21:44:13 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 22:16:13 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,70 +44,56 @@ void	game_context_initialize(t_game_context *game_state, SDLX_Display *display)
 	srand(time(NULL));
 }
 
-void	main_loop(void *v_cxt)
+void	main_loop(void *context_addr)
 {
 	SDLX_Display	*display;
-	t_game_context	*cxt;
+	t_game_context	*context;
 
-	cxt = v_cxt;
+	context = context_addr;
 	display = SDLX_GetDisplay();
-	process_user_input(cxt, display);
 
-	update_game_state(cxt);
+	// if (context->scene == SDL_FALSE)
+	// {
+	// 	context->init_fn(context, context->meta);
+	// }
 
-	draw_background(cxt, display);
+	context->shouldQuit = SDLX_poll();
+	// SDLX_KeyMap(&(g_GameInput.key_mapper), g_GameInput.keystate);
 
-	draw_pipes(cxt, display);
-	draw_player(cxt, display);
-	draw_score(cxt, display);
+	// SDLX_GameInput_Mouse_Fill(&(g_GameInput), SDL_TRUE);
 
-	cxt->shouldQuit = SDLX_poll();
+	// context->update_fn(context, context->meta);
 
-	if (cxt->game_over == true)
-		game_context_initialize(cxt, display);
+	process_user_input(context, display);
+
+	update_game_state(context);
+
+	draw_background(context, display);
+
+	draw_pipes(context, SDLX_GetDisplay());
+	draw_player(context, SDLX_GetDisplay());
+	draw_score(context, SDLX_GetDisplay());
+
+	if (context->game_over == true)
+		game_context_initialize(context, display);
 		// draw_game_over(cxt, display);
 
-	SDL_RenderPresent(display->renderer);
-	SDL_RenderClear(display->renderer);
+	if (context->shouldQuit != SDL_TRUE && SDLX_discrete_frames(&(context->ticks)) != EXIT_FAILURE)
+	{
+		// SDLX_RenderQueue_Flush(NULL, NULL, SDL_TRUE);
+		SDLX_ScreenReset(SDLX_GetDisplay()->renderer, NULL);
+	}
+
+	// SDLX_record_input(NULL);
+
+	// if (context->scene == SDL_FALSE)
+	// {
+	// 	SDLX_CollisionBucket_Flush(NULL);
+	// 	SDLX_RenderQueue_Flush(NULL, SDLX_GetDisplay()->renderer, SDL_FALSE);
+
+	// 	context->close_fn(context, context->meta);
+	// }
 }
-
-// void	main_loop(void *context_addr)
-// {
-// 	t_game_context	*context;
-
-// 	context = context_addr;
-// 	// if (context->scene == SDL_FALSE)
-// 	// {
-// 	// 	context->init_fn(context, context->meta);
-// 	// }
-
-// 	context->shouldQuit = SDLX_poll();
-// 	// SDLX_KeyMap(&(g_GameInput.key_mapper), g_GameInput.keystate);
-
-// 	// SDLX_GameInput_Mouse_Fill(&(g_GameInput), SDL_TRUE);
-
-// 	// context->update_fn(context, context->meta);
-
-// 	draw_pipes(context, SDLX_GetDisplay());
-// 	draw_player(context, SDLX_GetDisplay());
-// 	draw_score(context, SDLX_GetDisplay());
-
-// 	// if (context->shouldQuit != SDL_TRUE && SDLX_discrete_frames(&(context->ticks)) != EXIT_FAILURE)
-// 	// {
-// 	// 	SDLX_RenderQueue_Flush(NULL, NULL, SDL_TRUE);
-// 	// 	SDLX_ScreenReset(SDLX_GetDisplay()->renderer, NULL);
-// 	// }
-
-// 	// SDLX_record_input(NULL);
-
-// 	// if (context->scene == SDL_FALSE)
-// 	// {
-// 	// 	SDLX_CollisionBucket_Flush(NULL);
-// 	// 	SDLX_RenderQueue_Flush(NULL, SDLX_GetDisplay()->renderer, SDL_FALSE);
-
-// 	// 	context->close_fn(context, context->meta);
-// 	// }
-// }
 
 int	main(void)
 {

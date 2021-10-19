@@ -14,8 +14,6 @@ PRELOAD_FILES =							\
 
 PRELOAD = --preload-file $(PRELOAD_FILES)
 
-all: $(NAME)
-
 SDLX_DIR = SDLX/
 BIN_DIR = bin/
 
@@ -52,7 +50,8 @@ SRC_FILES = $(addsuffix .c, $(addprefix srcs/, $(FILE_NAMES)))
 
 OBJS = $(addprefix $(BIN_DIR), $(SRC_FILES:.c=.o))
 
-all: $(NAME)
+all:
+	make -j $(NAME)
 
 
 allw:

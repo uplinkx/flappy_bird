@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 11:30:10 by home              #+#    #+#             */
-/*   Updated: 2021/03/24 23:03:59 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 22:02:13 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,8 @@
 
 void	process_user_input(t_game_context *game_state, SDLX_Display *display)
 {
-	SDL_Event		e;
 	const Uint8		*keystate;
 
-	while (SDL_PollEvent(&e) != 0)
-	{
-		if (e.type == SDL_QUIT)
-		{
-			game_state->active = false;
-			break ;
-		}
-	}
 	keystate = SDL_GetKeyboardState(NULL);
 
 	if (keystate[SDL_SCANCODE_SPACE])
