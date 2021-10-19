@@ -48,7 +48,7 @@ void	*level_select_init(t_game_context *context, SDL_UNUSED void *vp_scene)
 
 	scene->ticks = &(context->ticks);
 	scene->score = 0;
-	scene->game_over = false;
+	scene->game_over = SDL_FALSE;
 
 	scene->pipes.pipe_texture = IMG_LoadTexture(renderer, "resources/flappy_bird.png");
 	scene->pipes.src_rect = carve_flappy_bird_texture();
@@ -66,8 +66,17 @@ void	*level_select_init(t_game_context *context, SDL_UNUSED void *vp_scene)
 
 void	*level_select_close(t_game_context *context, void *vp_scene)
 {
-	(void)context;
-	(void)vp_scene;
+	t_scene	*level;
+
+	level = vp_scene;
+	context->init_fn = main_menu_select_init;
+
+	if (level->score > context->hiscore)
+	{
+		context->hiscore = level->score;
+		context->isHiscore = SDL_TRUE;
+	}
+
 	return (NULL);
 }
 
@@ -90,28 +99,6 @@ void	process_user_input(t_scene *game_state)
 		game_state->player_vel_y = 8;
 }
 
-void		update_active_pipes(t_pipes *pipes, int *score)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipes->pipe_capacity)
-	{
-		if (pipes->pipes[i].active == true)
-		{
-			pipes->pipes[i].loc_x -= 8;
-			if (pipes->pipes[i].loc_x < -70 * 8)
-			{
-				pipes->pipes[i].active = false;
-				pipes->current_pipe_amount--;
-			}
-			if (pipes->pipes[i].loc_x == 40)
-				(*score)++;
-		}
-		i++;
-	}
-}
-
 void	*level_select_update(SDL_UNUSED t_game_context *context, void *vp_scene)
 {
 	t_scene	*level;
@@ -129,15 +116,13 @@ void	*level_select_update(SDL_UNUSED t_game_context *context, void *vp_scene)
 	if (level->player_vel_y > -10 && *(level->ticks) % 2 == 0)
 		level->player_vel_y += -1;
 
-
 	level->game_over = pipe_collisions(&(level->pipes), level->player_loc_y);
 
-
-	draw_pipes(&(level->pipes), SDLX_GetDisplay());
+	draw_pipes(&(level->pipes));
 	draw_player(level, SDLX_GetDisplay());
 	draw_score(level, SDLX_GetDisplay());
 
-	if (level->game_over == true)
+	if (level->game_over == SDL_TRUE)
 		game_context_initialize(context);
 		// draw_game_over(cxt, display);
 

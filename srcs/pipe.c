@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 20:09:41 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 23:50:21 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 01:00:14 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,41 @@
 #define PIPE_GAP (256)
 #define HALF_GAP (PIPE_GAP / 2)
 
-void	draw_pipe(t_pipes *pipes, SDLX_Display *display, t_pipe pipe)
+void	draw_pipe(t_pipes *pipes, t_pipe pipe)
 {
 	SDL_Rect	top_dest;
 	SDL_Rect	bottom_dest;
+	SDL_Renderer	*renderer;
 
+	renderer = SDLX_GetDisplay()->renderer;
 	top_dest.x = pipe.loc_x;
 	top_dest.y = 0;
 	top_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	top_dest.h = pipe.loc_y - (HALF_GAP);
-	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(top_dest));
+	SDL_RenderCopy(renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(top_dest));
 	top_dest.y = top_dest.h;
 	top_dest.h = TILE_SIZE * DISPLAY_SCALE;
-	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(top_dest));
+	SDL_RenderCopy(renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(top_dest));
 
 	bottom_dest.x = pipe.loc_x;
 	bottom_dest.y = pipe.loc_y + (HALF_GAP);
 	bottom_dest.w = TILE_SIZE * DISPLAY_SCALE;
 	bottom_dest.h = (WIN_HEIGHT) - bottom_dest.y;
-	SDL_RenderCopy(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(bottom_dest));
+	SDL_RenderCopy(renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_BODY]), &(bottom_dest));
 	bottom_dest.y -= TILE_SIZE * DISPLAY_SCALE;
 	bottom_dest.h = TILE_SIZE * DISPLAY_SCALE;
-	SDL_RenderCopyEx(display->renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(bottom_dest), 0, NULL, SDL_FLIP_VERTICAL);
+	SDL_RenderCopyEx(renderer, pipes->pipe_texture, &(pipes->src_rect[PIPE_END]), &(bottom_dest), 0, NULL, SDL_FLIP_VERTICAL);
 }
 
-void	draw_pipes(t_pipes *pipes, SDLX_Display *display)
+void	draw_pipes(t_pipes *pipes)
 {
 	int		i;
 
 	i = 0;
 	while (i < pipes->pipe_capacity)
 	{
-		if (pipes->pipes[i].active == true)
-			draw_pipe(pipes, display, pipes->pipes[i]);
+		if (pipes->pipes[i].active == SDL_TRUE)
+			draw_pipe(pipes, pipes->pipes[i]);
 		i++;
 	}
 }
@@ -73,13 +75,13 @@ void	spawn_pipe(t_pipes *pipes)
 
 	i = 0;
 	while (i < pipes->pipe_capacity &&
-			pipes->pipes[i].active == true)
+			pipes->pipes[i].active == SDL_TRUE)
 		i++;
 
 	if (i == pipes->pipe_capacity)
 		double_pipe_space(pipes);
 
-	pipes->pipes[i].active = true;
+	pipes->pipes[i].active = SDL_TRUE;
 	pipes->pipes[i].loc_x = WIN_WIDTH;
 	pipes->pipes[i].loc_y = (rand() % 10 + 5) * 25;
 
@@ -91,9 +93,9 @@ void	spawn_pipe(t_pipes *pipes)
 ** and certain attributes are only calculated once.
 */
 
-bool	collides_with_pipe(t_pipe pipe, int	player_loc_y)
+SDL_bool	collides_with_pipe(t_pipe pipe, int	player_loc_y)
 {
-	bool		result;
+	SDL_bool	result;
 	SDL_Rect	top_pipe;
 	SDL_Rect	bottom_pipe;
 
@@ -114,7 +116,7 @@ bool	collides_with_pipe(t_pipe pipe, int	player_loc_y)
 	player.w = TILE_SIZE * DISPLAY_SCALE;
 	player.h = TILE_SIZE * DISPLAY_SCALE;
 
-	result = false;
+	result = SDL_FALSE;
 	result |= SDL_HasIntersection(&player, &top_pipe);
 	result |= SDL_HasIntersection(&player, &bottom_pipe);
 	return (result);
@@ -135,4 +137,26 @@ SDL_bool	pipe_collisions(t_pipes *pipes, int player_loc_y)
 		i++;
 	}
 	return (SDL_FALSE);
+}
+
+void		update_active_pipes(t_pipes *pipes, int *score)
+{
+	int	i;
+
+	i = 0;
+	while (i < pipes->pipe_capacity)
+	{
+		if (pipes->pipes[i].active == SDL_TRUE)
+		{
+			pipes->pipes[i].loc_x -= 8;
+			if (pipes->pipes[i].loc_x < -70 * 8)
+			{
+				pipes->pipes[i].active = SDL_FALSE;
+				pipes->current_pipe_amount--;
+			}
+			if (pipes->pipes[i].loc_x == 40)
+				(*score)++;
+		}
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 21:58:31 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 21:16:39 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 00:58:27 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ SDL_Rect	*number_scr_Rects(void)
 void		itow(int n, SDL_Rect dest, SDLX_Display *dislay)
 {
 	int			temp;
-	bool		neg_sign;
+	SDL_bool	neg_sign;
 	SDL_Texture	*numbers;
 	SDL_Rect	*num_src;
 
@@ -61,9 +61,9 @@ void		itow(int n, SDL_Rect dest, SDLX_Display *dislay)
 	if (n == 0)
 		SDL_RenderCopy(dislay->renderer, numbers, &num_src[0], &dest);
 
-	neg_sign = false;
+	neg_sign = SDL_FALSE;
 	if (n < 0)
-		neg_sign = true;
+		neg_sign = SDL_TRUE;
 
 	while (n != 0)
 	{
@@ -74,6 +74,6 @@ void		itow(int n, SDL_Rect dest, SDLX_Display *dislay)
 		dest.x -= dest.w;
 		n /= 10;
 	}
-	if (neg_sign == true)
+	if (neg_sign == SDL_TRUE)
 		SDL_RenderCopy(dislay->renderer, numbers, &num_src[MINUS_SIGN], &dest);
 }

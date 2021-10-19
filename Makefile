@@ -1,7 +1,8 @@
 NAME = flappy_bird
 NAMEW = index.html
 
-FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 INCLUDES = -I includes/ -I includes/SDLX/
 LIBRARIES = -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS="['png']"
 SKELE_HTML = --shell-file srcs/skeleton.html
@@ -33,12 +34,18 @@ SDLX_NAMES = 			\
 	SDLX_utilsX			\
 	SDLX_xbox			\
 
+SPRITE_NAMES = 			\
+	sprite_buttons		\
+
 FILE_NAMES =		\
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))		\
+	$(addprefix sprites/, $(SPRITE_NAMES))		\
+	button			\
 	carve_texture	\
 	game_input		\
 	itow			\
 	level			\
+	main_menu		\
 	main			\
 	pipe			\
 	player			\

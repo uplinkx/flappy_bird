@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 03:05:42 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 23:20:21 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 00:56:44 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 # define STRUCTS_H
 
 #include <SDL2/SDL.h>
-#include <stdbool.h>
 
 typedef struct	s_pipe
 {
-	bool		active;
+	SDL_bool	active;
 	int			loc_x;
 	int			loc_y;
 }				t_pipe;
@@ -28,12 +27,13 @@ typedef void *(t_scene_fn)(struct s_game_context *, void *);
 
 typedef struct	s_game_context
 {
-	bool		active;
+	SDL_bool	active;
 
 	int			ticks;
 	int			hiscore;
+	SDL_bool	isHiscore;
 
-	bool		game_over;
+	SDL_bool	game_over;
 
 	SDLX_Sprite	background;
 	SDL_Texture	*capture_texture;
@@ -68,7 +68,7 @@ typedef struct	s_scene
 	int			*ticks;
 	int			score;
 
-	bool		game_over;
+	SDL_bool	game_over;
 
 	t_pipes		pipes;
 

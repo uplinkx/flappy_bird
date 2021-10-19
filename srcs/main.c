@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 22:54:15 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 00:57:52 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	game_context_initialize(t_game_context *game_state)
 {
-	game_state->active = true;
+	game_state->active = SDL_TRUE;
 	game_state->ticks = 0;
 	game_state->hiscore = 0;
 
@@ -27,7 +27,8 @@ void	game_context_initialize(t_game_context *game_state)
 	game_state->shouldQuit = SDL_FALSE;
 	game_state->shouldChange = SDL_TRUE;
 
-	game_state->init_fn = level_select_init;
+	// game_state->init_fn = level_select_init;
+	game_state->init_fn = main_menu_select_init;
 
 	srand(time(NULL));
 }
@@ -47,40 +48,26 @@ void	main_loop(void *context_addr)
 		context->shouldChange = SDL_FALSE;
 	}
 
-	// SDLX_KeyMap(&(g_GameInput.key_mapper), g_GameInput.keystate);
-	// SDLX_GameInput_Mouse_Fill(&(g_GameInput), SDL_TRUE);
+	SDLX_KeyMap(&(g_GameInput.key_mapper), g_GameInput.keystate);
+	SDLX_GameInput_Mouse_Fill(&(g_GameInput), SDL_TRUE);
 
 	context->update_fn(context, context->meta);
 
-	// process_user_input(context, display);
-
-	// update_game_state(context);
-
-	// draw_background(context, display);
-
-	// draw_pipes(context, SDLX_GetDisplay());
-	// draw_player(context, SDLX_GetDisplay());
-	// draw_score(context, SDLX_GetDisplay());
-
-	// if (context->game_over == true)
-	// 	game_context_initialize(context, display);
-	// 	// draw_game_over(cxt, display);
-
 	if (context->shouldQuit != SDL_TRUE && SDLX_discrete_frames(&(context->ticks)) != EXIT_FAILURE)
 	{
-		// SDLX_RenderQueue_Flush(NULL, NULL, SDL_TRUE);
+		SDLX_RenderQueue_Flush(NULL, NULL, SDL_FALSE);
 		SDLX_ScreenReset(SDLX_GetDisplay()->renderer, NULL);
 	}
 
-	// SDLX_record_input(NULL);
+	SDLX_record_input(NULL);
 
-	// if (context->scene == SDL_FALSE)
-	// {
-	// 	SDLX_CollisionBucket_Flush(NULL);
-	// 	SDLX_RenderQueue_Flush(NULL, SDLX_GetDisplay()->renderer, SDL_FALSE);
+	if (context->shouldQuit == SDL_TRUE)
+	{
+		SDLX_CollisionBucket_Flush(NULL);
+		SDLX_RenderQueue_Flush(NULL, SDLX_GetDisplay()->renderer, SDL_FALSE);
 
-	// 	context->close_fn(context, context->meta);
-	// }
+		context->close_fn(context, context->meta);
+	}
 }
 
 int	main(void)
