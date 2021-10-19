@@ -38,6 +38,7 @@ void		pipe_collisions(t_game_context *game_state);
 
 void		spawn_pipe(t_game_context *game_state);
 
+void		draw_background(t_game_context *game_state, SDLX_Display *display);
 void		draw_pipes(t_game_context *game_state, SDLX_Display *display);
 void		draw_player(t_game_context *game_state, SDLX_Display *display);
 void		draw_score(t_game_context *game_state, SDLX_Display *display);

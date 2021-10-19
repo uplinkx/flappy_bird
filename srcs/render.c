@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 02:38:19 by home              #+#    #+#             */
-/*   Updated: 2021/03/12 16:49:41 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 17:36:18 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,22 @@ void	draw_game_over(t_game_context *game_state, SDLX_Display *display)
 	dest.y = (WIN_HEIGHT) / 2 - (dest.w / 2);
 	SDL_RenderCopy(display->renderer, game_state->texture, &(game_state->src_rect[GAME_OVER]), &dest);
 }
+
+void	draw_background(t_game_context *game_state, SDLX_Display *display)
+{
+	SDL_Rect dest;
+
+	int x = game_state->ticks;
+	x %= WIN_WIDTH;
+	x -= WIN_WIDTH;
+	x *= -1;
+
+	dest.h = WIN_HEIGHT;
+	dest.w = WIN_WIDTH;
+	dest.y = 0;
+	dest.x = x;
+	SDL_RenderCopyEx(display->renderer, game_state->background, NULL, &(dest), 0, NULL, SDL_FLIP_NONE);
+	dest.x -= WIN_WIDTH;
+	SDL_RenderCopyEx(display->renderer, game_state->background, NULL, &(dest), 0, NULL, SDL_FLIP_NONE);
+}
+

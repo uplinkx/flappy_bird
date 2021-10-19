@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/03/12 16:49:26 by home             ###   ########.fr       */
+/*   Updated: 2021/03/24 23:03:53 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	game_context_initialize(t_game_context *game_state, SDLX_Display *display)
 	game_state->active = true;
 
 	game_state->texture = IMG_LoadTexture(display->renderer, "resources/flappy_bird.png");
+	game_state->background = IMG_LoadTexture(display->renderer, "resources/flappy_background.png");
 	game_state->src_rect = carve_flappy_bird_texture();
 
 	game_state->ticks = 0;
@@ -48,6 +49,8 @@ void	main_loop(void *v_cxt)
 	process_user_input(cxt, display);
 
 	update_game_state(cxt);
+
+	draw_background(cxt, display);
 
 	draw_pipes(cxt, display);
 	draw_player(cxt, display);

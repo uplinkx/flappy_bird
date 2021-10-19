@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 03:05:42 by home              #+#    #+#             */
-/*   Updated: 2021/03/12 16:48:34 by home             ###   ########.fr       */
+/*   Updated: 2021/03/12 17:21:40 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_game_context
 	bool		active;
 
 	SDL_Texture	*texture;
+	SDL_Texture	*background;
 	SDL_Rect	*src_rect;
 
 	int			ticks;
