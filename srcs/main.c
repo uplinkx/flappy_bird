@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/10/19 00:57:52 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 02:31:16 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	game_context_initialize(t_game_context *game_state)
 {
 	game_state->active = SDL_TRUE;
 	game_state->ticks = 0;
-	game_state->hiscore = 0;
+	game_state->score = 0;
 
 	game_state->game_over = SDL_FALSE;
 	game_state->shouldQuit = SDL_FALSE;
@@ -61,7 +61,7 @@ void	main_loop(void *context_addr)
 
 	SDLX_record_input(NULL);
 
-	if (context->shouldQuit == SDL_TRUE)
+	if (context->shouldChange == SDL_TRUE)
 	{
 		SDLX_CollisionBucket_Flush(NULL);
 		SDLX_RenderQueue_Flush(NULL, SDLX_GetDisplay()->renderer, SDL_FALSE);
@@ -75,6 +75,7 @@ int	main(void)
 	SDLX_Display	*display;
 	t_game_context	cxt;
 
+	cxt.hiscore = 0;
 	display = SDLX_GetDisplay();
 	game_context_initialize(&cxt);
 	#ifdef EMCC

@@ -37,6 +37,7 @@ void		update_game_state(t_scene *game_state);
 SDL_bool	pipe_collisions(t_pipes *pipes, int player_loc_y);
 
 void		spawn_pipe(t_pipes *pipes);
+void		update_active_pipes(t_pipes *pipes, int *score);
 
 void		draw_background(t_scene *game_state, SDLX_Display *display);
 void		draw_pipes(t_pipes *pipes);
@@ -55,6 +56,10 @@ void	*level_select_update(t_game_context *context, void *vp_scene);
 void	*main_menu_select_init(t_game_context *context, void *vp_scene);
 void	*main_menu_select_close(t_game_context *context, void *vp_scene);
 void	*main_menu_select_update(t_game_context *context, void *vp_scene);
+
+void	*death_scene_select_init(t_game_context *context, void *vp_scene);
+void	*death_scene_select_close(t_game_context *context, void *vp_scene);
+void	*death_scene_select_update(t_game_context *context, void *vp_scene);
 
 int		fetch_button_sprite(SDLX_Sprite_Data **dst, int no);
 void	*button_trigger_scene_switch(SDLX_button *self, void *vp_context, SDL_UNUSED size_t length);

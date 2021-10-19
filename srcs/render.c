@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 02:38:19 by home              #+#    #+#             */
-/*   Updated: 2021/10/18 23:10:30 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 01:13:08 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	draw_score(t_scene *game_state, SDLX_Display *display)
 {
 	SDL_Rect	dest;
 
-	dest.h = 5 * DISPLAY_SCALE;
-	dest.w = 4 * DISPLAY_SCALE;
+	dest.h = 10 * DISPLAY_SCALE;
+	dest.w = 8 * DISPLAY_SCALE;
 	dest.x = 400;
 	dest.y = 48;
 	itow(game_state->score, dest, display);

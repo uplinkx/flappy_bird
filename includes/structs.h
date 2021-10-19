@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 03:05:42 by home              #+#    #+#             */
-/*   Updated: 2021/10/19 00:56:44 by home             ###   ########.fr       */
+/*   Updated: 2021/10/19 01:54:26 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct	s_game_context
 
 	int			ticks;
 	int			hiscore;
-	SDL_bool	isHiscore;
+	int			score;
 
 	SDL_bool	game_over;
 

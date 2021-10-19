@@ -69,13 +69,12 @@ void	*level_select_close(t_game_context *context, void *vp_scene)
 	t_scene	*level;
 
 	level = vp_scene;
-	context->init_fn = main_menu_select_init;
+	context->init_fn = death_scene_select_init;
 
-	if (level->score > context->hiscore)
-	{
+	context->score = level->score;
+	if (context->hiscore <= level->score)
 		context->hiscore = level->score;
-		context->isHiscore = SDL_TRUE;
-	}
+	context->shouldChange = SDL_TRUE;
 
 	return (NULL);
 }

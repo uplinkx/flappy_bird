@@ -42,6 +42,7 @@ FILE_NAMES =		\
 	$(addprefix sprites/, $(SPRITE_NAMES))		\
 	button			\
 	carve_texture	\
+	death_scene		\
 	game_input		\
 	itow			\
 	level			\
