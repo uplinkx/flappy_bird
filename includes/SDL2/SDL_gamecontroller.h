@@ -125,10 +125,10 @@ typedef struct SDL_GameControllerButtonBind
 
 /**
  *  Load a set of mappings from a seekable SDL data stream (memory or file), filtered by the current SDL_GetPlatform()
- *  A community sourced database of controllers is available at https://raw.github.com/gabomdq/SDL_GameControllerDB/master/gamecontrollerdb.txt
+ *  A community sourced database of controllers is available at https://raw.github.com/gabomdq/SDL_GameControllerDB/main/gamecontrollerdb.txt
  *
  *  If \c freerw is non-zero, the stream will be closed after being read.
- * 
+ *
  * \return number of mappings added, -1 on error
  */
 extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops * rw, int freerw);
@@ -264,7 +264,7 @@ extern DECLSPEC Uint16 SDLCALL SDL_GameControllerGetProductVersion(SDL_GameContr
 
 /**
  *  Get the serial number of an opened controller, if available.
- * 
+ *
  *  Returns the serial number of the controller, or NULL if it is not available.
  */
 extern DECLSPEC const char * SDLCALL SDL_GameControllerGetSerial(SDL_GameController *gamecontroller);

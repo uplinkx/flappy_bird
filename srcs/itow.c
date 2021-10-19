@@ -6,12 +6,12 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 21:58:31 by home              #+#    #+#             */
-/*   Updated: 2021/03/07 16:17:07 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 21:16:39 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+# include <SDL2/SDL_image.h>
 
 #include "main.h"
 

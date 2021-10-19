@@ -16,12 +16,16 @@
 # include <stdio.h>
 # include <math.h>
 
-# include <SDL_image.h>
+# include <SDL2/SDL_image.h>
 
 # include "SDLX.h"
 
 # include "structs.h"
 # include "texture_id.h"
+
+# define TILE_SIZE	(16)
+
+# define TILE (1)
 
 void		SDLU_start(SDLX_Display *dest);
 void		SDLU_close(SDLX_Display *display);

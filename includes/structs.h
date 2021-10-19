@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 03:05:42 by home              #+#    #+#             */
-/*   Updated: 2021/03/12 17:21:40 by home             ###   ########.fr       */
+/*   Updated: 2021/10/18 21:18:41 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct	s_game_context
 	int			player_animation;
 	int			player_loc_y;
 	int			player_vel_y;
+
+	SDL_bool	shouldQuit;
 }				t_game_context;
 
 #endif

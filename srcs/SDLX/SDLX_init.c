@@ -1,8 +1,23 @@
+/***************************************************************************
+ * FILENAME:    SDLX_init.c
+ * DESCRIPTION: Starts up SDLX and SDL. Does this automatically if
+ * SDLX_getDislay() is called.
+ *
+ * ENVIRONMENT:
+ *     macOS Catalina 10.15.7
+ *     Visual Studio Code 1.56.2
+ * AUTHORS:
+ *     Kevin Colour
+ * DATES:
+ *     Created: 22Jun2021
+***************************************************************************/
+
 #include "SDLX.h"
 
 SDLX_GameInput	g_GameInput;
+SDLX_GameInput	g_GameInput_prev;
 
-void	SDLX_start(SDLX_Display *dest)
+void	SDLX_Start(SDLX_Display *dest)
 {
 	SDL_Window	*window;
 
@@ -16,13 +31,18 @@ void	SDLX_start(SDLX_Display *dest)
 	dest->window = window;
 	dest->renderer = SDL_CreateRenderer(window, -1, 0);
 
-	atexit(SDLX_close);
+	SDLX_RenderQueue_Init(&(default_RenderQueue));
+	SDLX_CollisionBucket_Init(&(default_CollisionBucket), 0);
+
+	atexit(SDLX_Close);
 }
 
-void	SDLX_close(void)
+void	SDLX_Close(void)
 {
-	SDL_Log("Clean Exit");
 	SDL_DestroyWindow(SDLX_GetDisplay()->window);
+	SDL_free(default_CollisionBucket.content);
+	SDL_free(default_RenderQueue.content);
+	SDL_Log("Clean Exit");
 	SDL_Quit();
 }
 
@@ -31,7 +51,7 @@ SDLX_Display	*SDLX_GetDisplay(void)
 	static SDLX_Display	display;
 
 	if (display.window == NULL)
-		SDLX_start(&display);
+		SDLX_Start(&display);
 
 	return (&display);
 }
